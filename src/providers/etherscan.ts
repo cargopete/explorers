@@ -50,14 +50,14 @@ const SUPPORTED_CHAINS = new Set<ChainKey>([
   "berachain",
 ]);
 
-interface EtherscanResponse<T> {
+export interface EtherscanResponse<T> {
   readonly status?: string;
   readonly message?: string;
   readonly result?: T;
   readonly error?: { readonly code: number; readonly message: string };
 }
 
-interface EtherscanTx {
+export interface EtherscanTx {
   readonly blockNumber: string;
   readonly timeStamp: string;
   readonly hash: string;
@@ -76,7 +76,7 @@ interface EtherscanTx {
   readonly confirmations: string;
 }
 
-interface EtherscanTokenTx {
+export interface EtherscanTokenTx {
   readonly blockNumber: string;
   readonly timeStamp: string;
   readonly hash: string;
@@ -106,7 +106,7 @@ interface EtherscanGasResult {
   readonly gasUsedRatio: string;
 }
 
-interface EtherscanBlockResult {
+export interface EtherscanBlockResult {
   readonly number: string;
   readonly hash: string;
   readonly parentHash: string;
@@ -118,18 +118,39 @@ interface EtherscanBlockResult {
   readonly transactions: readonly string[];
 }
 
-function getChainId(chain: ChainKey): string {
+/**
+ * The decimal `chainid` an Etherscan-shaped API takes, for one of the chains Etherscan serves.
+ *
+ * @param {ChainKey} chain - The requested chain.
+ * @param {string} provider - The provider a refusal names.
+ * @returns {string} The chain ID in decimal.
+ */
+export function getChainId(chain: ChainKey, provider = "etherscan"): string {
   if (!SUPPORTED_CHAINS.has(chain)) {
-    throw new UnsupportedChainError(chain, "etherscan");
+    throw new UnsupportedChainError(chain, provider);
   }
   const { chainId } = createChain(chain);
   if (!chainId) {
-    throw new UnsupportedChainError(chain, "etherscan");
+    throw new UnsupportedChainError(chain, provider);
   }
   return BigInt(chainId).toString();
 }
 
-function mapTx(raw: Readonly<EtherscanTx>): Transaction {
+export function mapBlock(result: Readonly<EtherscanBlockResult>): BlockInfo {
+  return {
+    number: Number(result.number),
+    hash: result.hash,
+    parentHash: result.parentHash,
+    timestamp: new Date(Number(result.timestamp) * 1000).toISOString(),
+    miner: result.miner,
+    gasUsed: BigInt(result.gasUsed).toString(),
+    gasLimit: BigInt(result.gasLimit).toString(),
+    txCount: result.transactions.length,
+    baseFee: result.baseFeePerGas ? BigInt(result.baseFeePerGas).toString() : undefined,
+  };
+}
+
+export function mapTx(raw: Readonly<EtherscanTx>): Transaction {
   const status: TxStatus =
     raw.isError === "1" || raw.txreceipt_status === "0" ? "failed" : "success";
   return {
@@ -233,7 +254,7 @@ function rpcInput(input: string | null | undefined): {
   };
 }
 
-function mapRpcTransaction(
+export function mapRpcTransaction(
   tx: Readonly<Record<string, string | null>>,
   receipt: Readonly<Record<string, string | null>> | null,
 ): Transaction {
@@ -288,7 +309,7 @@ function mapContract(
   };
 }
 
-function mapTokenTransfer(raw: Readonly<EtherscanTokenTx>): TokenTransfer {
+export function mapTokenTransfer(raw: Readonly<EtherscanTokenTx>): TokenTransfer {
   const decimals = Number(raw.tokenDecimal);
   return {
     contract: raw.contractAddress,
@@ -489,16 +510,6 @@ export class Etherscan extends Provider {
       throw new NotFoundError(`Block ${blockNumber}`, "etherscan");
     }
 
-    return {
-      number: Number(result.number),
-      hash: result.hash,
-      parentHash: result.parentHash,
-      timestamp: new Date(Number(result.timestamp) * 1000).toISOString(),
-      miner: result.miner,
-      gasUsed: BigInt(result.gasUsed).toString(),
-      gasLimit: BigInt(result.gasLimit).toString(),
-      txCount: result.transactions.length,
-      baseFee: result.baseFeePerGas ? BigInt(result.baseFeePerGas).toString() : undefined,
-    };
+    return mapBlock(result);
   }
 }

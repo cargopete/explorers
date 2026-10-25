@@ -232,6 +232,12 @@ const PRESENTATION: Record<string, ProviderPresentation> = {
     envVars: [],
     blurb: "eCash history and blocks from explorer.e.cash, a whole page in one request and no key. The balance hides in HTML, so Blockchair keeps that one.",
   },
+  nuthatch: {
+    label: "Nuthatch",
+    icon: "i-lucide-library",
+    envVars: ["NUTHATCH_URL"],
+    blurb: "Etherscan's API from a nuthatch indexer you run yourself, for the addresses it watches. Only ever chosen by name, and it refuses a range it cannot prove.",
+  },
 };
 
 export interface ProviderInfo extends ProviderSnapshot, ProviderPresentation {

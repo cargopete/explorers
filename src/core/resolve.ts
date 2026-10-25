@@ -45,6 +45,9 @@ const ENV_MAP: Record<string, string[]> = {
 
 const OPTIONAL_CREDENTIAL_PROVIDERS: readonly string[] = ["blockchair", "whatsonchain"];
 
+/* An indexer the user runs answers only when named, so no automatic read or hint reaches it. */
+const EXPLICIT_ONLY: readonly string[] = ["nuthatch"];
+
 /** Provider-specific default chains */
 export const PROVIDER_DEFAULT_CHAIN: Partial<Record<string, ChainKey>> = {
   mempool: "bitcoin",
@@ -126,6 +129,7 @@ function appendRankedProvider(
   chain?: ChainKey,
   capability?: ProviderCapability,
 ): readonly string[] {
+  if (EXPLICIT_ONLY.includes(name)) return ranked;
   const fitsChain = chain === undefined || supportsChain(name, chain);
   const fitsCapability = capability === undefined || supportsCapability(name, capability, chain);
   return has(name) && fitsChain && fitsCapability && !ranked.includes(name)

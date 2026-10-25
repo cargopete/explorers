@@ -112,7 +112,7 @@ ${offline}
         chains: string[];
         capabilities?: Record<string, boolean>;
       }>;
-      expect(listed).toHaveLength(22);
+      expect(listed).toHaveLength(23);
       expect(listed.find((listing) => listing.name === "mempool")).toMatchObject({
         chains: ["bitcoin", "litecoin", "pepecoin"],
         capabilities: { balances: true, utxos: true, pubkeys: true, contractInfo: false },

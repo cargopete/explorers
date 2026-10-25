@@ -1,6 +1,6 @@
 {
   "version": "0.6.1",
-  "generatedAt": "2026-10-24T15:52:33.708Z",
+  "generatedAt": "2026-10-25T15:50:40.089Z",
   "providers": [
     {
       "key": "etherscan",
@@ -343,6 +343,30 @@
       ],
       "defaultURL": "https://api.xrpscan.com/api/v1",
       "defaultChain": "xrpl"
+    },
+    {
+      "key": "nuthatch",
+      "chains": [
+        "ethereum",
+        "base",
+        "arbitrum",
+        "optimism",
+        "polygon",
+        "bsc",
+        "avalanche",
+        "gnosis",
+        "linea",
+        "berachain"
+      ],
+      "capabilities": [
+        "balances",
+        "txHistory",
+        "txDetail",
+        "tokenTransfers",
+        "blockInfo"
+      ],
+      "defaultURL": null,
+      "defaultChain": "ethereum"
     }
   ],
   "chains": [
@@ -355,7 +379,8 @@
       "providers": [
         "etherscan",
         "blockscout",
-        "blockchair"
+        "blockchair",
+        "nuthatch"
       ]
     },
     {
@@ -366,7 +391,8 @@
       "explorer": "https://basescan.org",
       "providers": [
         "etherscan",
-        "blockscout"
+        "blockscout",
+        "nuthatch"
       ]
     },
     {
@@ -377,7 +403,8 @@
       "explorer": "https://arbiscan.io",
       "providers": [
         "etherscan",
-        "blockscout"
+        "blockscout",
+        "nuthatch"
       ]
     },
     {
@@ -388,7 +415,8 @@
       "explorer": "https://optimistic.etherscan.io",
       "providers": [
         "etherscan",
-        "blockscout"
+        "blockscout",
+        "nuthatch"
       ]
     },
     {
@@ -399,7 +427,8 @@
       "explorer": "https://polygonscan.com",
       "providers": [
         "etherscan",
-        "blockscout"
+        "blockscout",
+        "nuthatch"
       ]
     },
     {
@@ -409,7 +438,8 @@
       "type": "evm",
       "explorer": "https://bscscan.com",
       "providers": [
-        "etherscan"
+        "etherscan",
+        "nuthatch"
       ]
     },
     {
@@ -420,7 +450,8 @@
       "explorer": "https://snowtrace.io",
       "providers": [
         "etherscan",
-        "blockscout"
+        "blockscout",
+        "nuthatch"
       ]
     },
     {
@@ -431,7 +462,8 @@
       "explorer": "https://gnosisscan.io",
       "providers": [
         "etherscan",
-        "blockscout"
+        "blockscout",
+        "nuthatch"
       ]
     },
     {
@@ -442,7 +474,8 @@
       "explorer": "https://lineascan.build",
       "providers": [
         "etherscan",
-        "blockscout"
+        "blockscout",
+        "nuthatch"
       ]
     },
     {
@@ -452,7 +485,8 @@
       "type": "evm",
       "explorer": "https://berascan.com",
       "providers": [
-        "etherscan"
+        "etherscan",
+        "nuthatch"
       ]
     },
     {

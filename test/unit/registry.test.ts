@@ -18,6 +18,9 @@ const buildInputs = config.entries?.flatMap((entry) =>
   typeof entry !== "string" && entry.type === "bundle" ? [entry.input].flat() : [],
 );
 
+/* Nuthatch has no public instance, so a configured one names its nest. */
+const CONFIGURED = { apiKey: "configured", baseUrl: "http://127.0.0.1:8288" };
+
 const modules = readdirSync(providerDir).filter(
   (file) => file.endsWith(".ts") && file !== "index.ts",
 );
@@ -80,7 +83,7 @@ describe("built-in provider registry", () => {
   it("keeps selection capabilities aligned with provider instances", async () => {
     for (const entry of builtins) {
       const ProviderClass = await entry.load();
-      const provider = new ProviderClass({ apiKey: "configured" });
+      const provider = new ProviderClass(CONFIGURED);
       const capabilities = Object.entries(provider.capabilities) as [ProviderCapability, boolean][];
 
       for (const [capability, supported] of capabilities) {
@@ -132,7 +135,7 @@ describe("built-in provider registry", () => {
 
     for (const entry of builtins) {
       const ProviderClass = await entry.load();
-      const provider = new ProviderClass({ apiKey: "configured" });
+      const provider = new ProviderClass(CONFIGURED);
 
       expect(listed.get(entry.key)).toEqual({
         name: entry.key,

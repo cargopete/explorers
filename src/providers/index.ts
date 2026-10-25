@@ -222,4 +222,21 @@ export const builtins: readonly ProviderEntry[] = [
     defaultURL: "https://api.xrpscan.com/api/v1",
     load: () => import("./xrpscan.ts").then((m) => m.XRPScan),
   },
+  {
+    key: "nuthatch",
+    chains: [
+      "ethereum",
+      "base",
+      "arbitrum",
+      "optimism",
+      "polygon",
+      "bsc",
+      "avalanche",
+      "gnosis",
+      "linea",
+      "berachain",
+    ],
+    capabilities: ["balances", "txHistory", "txDetail", "tokenTransfers", "blockInfo"],
+    load: () => import("./nuthatch.ts").then((m) => m.Nuthatch),
+  },
 ] satisfies readonly BuiltinProviderEntry[];

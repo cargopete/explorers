@@ -174,6 +174,7 @@ That's most of it, really. `create()` loads one provider and nothing else. `with
 | **haskoin**      | None                            | bitcoincash                                                                           | balances, tx detail/history, utxos, block                                |
 | **ecash**        | None                            | ecash                                                                                 | tx history, block                                                        |
 | **xrpscan**      | None                            | xrpl                                                                                  | balances, tx detail/history, tokens, block                               |
+| **nuthatch**     | `NUTHATCH_URL`, explicit only   | ethereum, base, arbitrum, optimism, polygon, bsc, avalanche, gnosis, linea, berachain | balances, tx detail/history, transfers, block                            |
 
 Aptos is in the table so you don't ask why it's not in the table. Aptos Explorer has no documented account or history API. So it's registered, does nothing and throws `UnsupportedOperationError` if you insist.
 
